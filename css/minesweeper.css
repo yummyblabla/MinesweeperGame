@@ -31,7 +31,7 @@ canvas {
 
 #overlay {
     position: fixed;
-    display: none;
+    display: block;
     width: 100%;
     height: 100%;
     top: 0;
@@ -39,18 +39,70 @@ canvas {
     right: 0;
     bottom: 0;
     background-color: rgba(0,0,0,0.5);
-    cursor: pointer;
 }
 
-#text{
+.overlayInterface {
+    height: 400px;
+    width: 400px;
     position: absolute;
+    display: flex;
+    flex-direction: column;
     top: 50%;
     left: 50%;
-    font-size: 50px;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
     background-color: white;
 }
+
+/* User Options with Login or Guest Interface */
+#userOptions {
+
+}
+
+#login {
+    flex: 1 0 0;
+}
+
+#guest {
+    flex: 1 0 0;
+}
+
+/* User Login Interface */
+#userLogin {
+    visibility: hidden;
+}
+
+#userInput {
+    flex: 1 0 0;
+}
+
+#loginButton {
+    flex: 1 0 0;
+}
+
+/* End Game Interface*/
+#endGame {
+    visibility: hidden;
+}
+
+#difficulty {
+
+}
+#submitScore {
+    display: none;
+    height: 100px;
+}
+
+.userOnlyFeature {
+    display: none;
+}
+
+
+
+
+
+
+
 
 #closebutton {
     font-size: 20px;
@@ -59,3 +111,4 @@ canvas {
 /*    -ms-transform: translate(50%,50%);*/
     z-index: 1;
 }
+

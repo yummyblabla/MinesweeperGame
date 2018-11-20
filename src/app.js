@@ -52,7 +52,7 @@ const gameSettings = {
 const currentGameParameters = {
 	rows: 16,
 	cols: 30,
-	mines: 20,
+	mines: 10,
 	difficulty: 'Expert'
 }
 
@@ -275,7 +275,9 @@ const Game = {
 		this.started = false;
 		// If won, run code
 		if (win) {
+			updateOverlayMessage();
 			overlayOn();
+			document.getElementById("endGame").style.visibility = "visible";
 		};
 	},
 	// Starts game
@@ -303,27 +305,6 @@ const Game = {
 /* -----------------------------------------------------*/
 /* -----------------------------------------------------*/
 
-// Submit score to database
-const submitScore = () => {
-	console.log("hey");
-};
-
-// When user wins, update the overlay message with time and difficulty played
-const updateOverlayMessage = () => {
-	document.getElementById("difficulty").innerHTML = `Difficulty: ${ currentGameParameters.difficulty }`;
-	document.getElementById("timeNeeded").innerHTML = `Time: ${ timeElapsed.toFixed(1) }`
-};
-
-// Turn overlay message on
-const overlayOn = () => {
-	updateOverlayMessage();
-	document.getElementById("overlay").style.display = 'block';
-};
-
-// Turn overlay message off
-const overlayOff = () => {
-	document.getElementById("overlay").style.display = 'none';
-};
 
 // No flagging mines allowed
 const noFlagMode = () => {

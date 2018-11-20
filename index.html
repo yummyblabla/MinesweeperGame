@@ -12,7 +12,13 @@
 		<div id="body">
 
 			<div id="scores">
-
+				
+				<div class="userOnlyFeature">
+					<span>Username: </span><span id="username">Username</span>
+					<br>
+					<button onclick="loadPreviousGame()">Load</button><button onclick="saveGame()">Save</button>
+					<br>
+				</div>
 				<p>Scores</p>
 				<p id="expert"></p>
 
@@ -52,14 +58,34 @@
 
 			</div>
 
+			<!-- Overlay -->
 			<div id="overlay">
 				
-				<div id="text">
+				<div class="overlayInterface" id="userOptions">
+					
+					<button id="login" onclick="goToLogin()">Play with a username (Save Game and Highscore)</button>
+					<button id="guest" onclick="goToGame()">Play without username</button>
+
+				</div>
+
+				<div class="overlayInterface" id="userLogin">
+					<button onclick="goToStart()">Back</button>
+					<div id="userInput">
+						<span>Username: </span><input type="" name="" id="usernameInput">
+					</div>
+					
+					<button id="loginButton" onclick="login()">Log in</button>
+
+
+				</div>
+
+				<div class="overlayInterface" id="endGame">
+
 					<button id="closeButton" onclick="overlayOff()">X</button>
 					<p>You won!</p>
 					<p id="difficulty"></p>
 					<p id="timeNeeded"></p>
-					<button onclick="submitScore()">Submit Score</button>
+					<button class="userOnlyFeature" id="submitScore" onclick="submitScore()">Submit Score</button>
 
 				</div>
 
@@ -72,6 +98,7 @@
 	<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
 
 	<script src="src/firebase.js"></script>
+	<script src="src/interface_ui.js"></script>
 	<script src="src/app.js"></script>
 
 </html>

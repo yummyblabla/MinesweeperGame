@@ -24,7 +24,7 @@ const writeUserData = () => {
 }
 
 
-writeUserData();
+// writeUserData();
 
 const readData = () => {
 	let expert = document.getElementById("expert");
