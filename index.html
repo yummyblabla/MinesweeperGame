@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title></title>
+
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="./css/minesweeper.css">
+	</head>
+
+	<body>
+		<div id="body">
+
+			<div id="scores">
+
+				<p>Scores</p>
+				<p id="expert"></p>
+
+			</div>
+
+			<div id="game">
+
+				<canvas id="canvas">Please update your browser.</canvas>
+
+			</div>
+			
+
+			<div id="buttons">
+				<p>Custom Game</p>
+				<form>
+					<span>Width</span><input type="number" id="width">
+					<br>
+					<span>Height</span><input type="number" id="height">
+					<br>
+					<span>Mines</span><input type="number" id="mines">
+				</form>
+				<button id="Custom" onclick="changeGameParameters(this.id)">Change</button>
+
+				<br>
+				<br>
+				<p>Level</p>
+				<button id="Beginner" onclick="setLevel(8, 8, 10, this.id)">Beginner</button>
+				<br>
+				<button id="Intermediate" onclick="setLevel(16, 16, 40, this.id)">Intermediate</button>
+				<br>
+				<button id="Expert" onclick="setLevel(30, 16, 99, this.id)">Expert</button>
+
+				<br>
+				<button class="notSelected" id="noFlags" onclick="noFlagMode()">No Flag Mode</button>
+				<br>
+				<button class="notSelected" id="noMistakes" onclick="noMistakesMode()">No Mistakes Allowed</button>
+
+			</div>
+
+			<div id="overlay">
+				
+				<div id="text">
+					<button id="closeButton" onclick="overlayOff()">X</button>
+					<p>You won!</p>
+					<p id="difficulty"></p>
+					<p id="timeNeeded"></p>
+					<button onclick="submitScore()">Submit Score</button>
+
+				</div>
+
+			</div>
+
+		</div>
+		
+	</body>
+	<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
+
+	<script src="src/firebase.js"></script>
+	<script src="src/app.js"></script>
+
+</html>

@@ -1,0 +1,61 @@
+canvas {
+	background-color: gray;
+}
+
+#body {
+	display: flex;
+}
+
+#scores {
+	order: 1;
+	flex: 0.5 0 0;
+}
+
+#game {
+	order: 2;
+	flex: 0.5 0 0;
+}
+
+#buttons {
+	order: 3;
+	flex: 0.5 0 0;
+}
+
+.selected {
+	background-color: green;
+}
+
+.notSelected {
+	background-color: red;
+}
+
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+#text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 50px;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    background-color: white;
+}
+
+#closebutton {
+    font-size: 20px;
+    color: black;
+    transform: translate(1000%,-900%);
+/*    -ms-transform: translate(50%,50%);*/
+    z-index: 1;
+}
