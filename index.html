@@ -12,13 +12,6 @@
 		<div id="body">
 
 			<div id="scores">
-				
-				<div class="userOnlyFeature">
-					<span>Username: </span><span id="username">Username</span>
-					<br>
-					<button onclick="loadPreviousGame()">Load</button><button onclick="saveGame()">Save</button>
-					<br>
-				</div>
 				<p>Scores</p>
 				<p id="expert"></p>
 
@@ -60,24 +53,6 @@
 
 			<!-- Overlay -->
 			<div id="overlay">
-				
-				<div class="overlayInterface" id="userOptions">
-					
-					<button id="login" onclick="goToLogin()">Play with a username (Save Game and Highscore)</button>
-					<button id="guest" onclick="goToGame()">Play without username</button>
-
-				</div>
-
-				<div class="overlayInterface" id="userLogin">
-					<button onclick="goToStart()">Back</button>
-					<div id="userInput">
-						<span>Username: </span><input type="" name="" id="usernameInput">
-					</div>
-					
-					<button id="loginButton" onclick="login()">Log in</button>
-
-
-				</div>
 
 				<div class="overlayInterface" id="endGame">
 
@@ -85,7 +60,7 @@
 					<p>You won!</p>
 					<p id="difficulty"></p>
 					<p id="timeNeeded"></p>
-					<button class="userOnlyFeature" id="submitScore" onclick="submitScore()">Submit Score</button>
+					<button id="submitScore" onclick="submitScore()">Submit Score</button>
 
 				</div>
 

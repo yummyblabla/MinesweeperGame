@@ -41,12 +41,15 @@ const uiSettings = {
 	colour: 'black',
 	fontSize: 30,
 	fontStyle: "Comic Sans MS"
-}
+};
+
+let rightHeld = false;
+let leftHeld = false;
 
 // Game Settings (e.g. cellSize)
 const gameSettings = {
 	cellSize: 30
-}
+};
 
 // Current Game Parameters (rows, cols, mines)
 const currentGameParameters = {
@@ -54,7 +57,7 @@ const currentGameParameters = {
 	cols: 30,
 	mines: 10,
 	difficulty: 'Expert'
-}
+};
 
 // Time
 let timeElapsed = 0;
@@ -91,8 +94,6 @@ Cell.prototype.isRevealed = function() {
 
 // Reveal cell if it has been clicked
 Cell.prototype.reveal = function() {
-	// Start game if game hasn't started. Starts timer
-	checkToStartGame();
 
 	// If mine is revealed, Game is over and stop function
 	if (this.isMine) {
@@ -116,6 +117,7 @@ Cell.prototype.reveal = function() {
 	};
 	// Check if game is completed with every reveal
 	Board.validate();
+	
 };
 
 // Flag cell only if it hasn't been revealed
@@ -126,16 +128,30 @@ Cell.prototype.flag = function() {
 		if (Game.noMistakes) {
 			// Once flagged, you cannot unflag
 			if (!this.flagged) {
-				// Start game if game hasn't started. Starts timer
-				checkToStartGame();
 				this.flagged = !this.flagged;
 			};
 		} else {
-			// Start game if game hasn't started. Starts timer
-			checkToStartGame();
-
 			// Other game modes, you can go back and forth
 			this.flagged = !this.flagged;
+		};
+	};
+};
+
+// Chord the cell if number of flags around cell is same number as activeNeighbours
+Cell.prototype.chord = function() {
+	let neighbours = this.getNeighbours();
+	let flagged = 0;
+	for (let i = 0; i < neighbours.length; i++) {
+		if (neighbours[i].flagged) {
+			flagged++;
+		};
+	};
+	let data = [];
+	if (flagged == this.activeNeighbours) {
+		for (let i = 0; i < neighbours.length; i++) {
+			if (!neighbours[i].revealed && !neighbours[i].flagged) {
+				neighbours[i].reveal();
+			};
 		};
 	};
 };
@@ -282,6 +298,8 @@ const Game = {
 	},
 	// Starts game
 	start: function() {
+		leftHeld = false;
+		rightHeld = false;
 		// Gets parameters for board reset
 		let rows = currentGameParameters.rows;
 		let cols = currentGameParameters.cols;
@@ -336,17 +354,6 @@ const noMistakesMode = () => {
 	};
 };
 
-const checkToStartGame = () => {
-	// Start game if game hasn't started. Starts timer
-	if (!Game.started) {
-		Game.started = !Game.started;
-		// Initiates the start of the game time
-		then = Date.now();
-		// Once a cell is revealed, start game loop
-		main();
-	};
-}
-
 // Restricts width and height parameter to being between 8 and 40
 const minMaxParameter = (parameter) => {
 	if (parameter < 8) {
@@ -363,7 +370,7 @@ const minMaxMines = (mines, width, height) => {
 	if (mines < 10) {
 		return 10;
 	} else if (mines > width * height) {
-		return width * height;
+		return width * height / 2;
 	} else {
 		return mines;
 	};
@@ -457,64 +464,122 @@ const getMousePos = (canvas, event) => {
 	};
 };
 
+// Checks the state if game has started
+const checkToStartGame = (cell) => {
+	let row = cell.row;
+	let col = cell.col;
+	// Keep changing board if the starting reveal's cell activeNeighbours isn't 0 or is mine
+	while (Board.getCell(row, col).activeNeighbours != 0 || Board.getCell(row, col).isMine) {
+		Board.reset(currentGameParameters.rows, currentGameParameters.cols, currentGameParameters.mines);
+	};
+	// Start game
+	Game.started = !Game.started;
+	// Initiates the start of the game time
+	then = Date.now();
+	// Once a cell is revealed, start game loop
+	main();
+};
+
 // Add Event Listeners to the Page
 const addEventListeners = () => {
-	// Left Click listener
-	canvas.addEventListener("click", (event) => {
+
+	// Event Listeners
+	canvas.addEventListener("mousedown", (event) => {
 		event.preventDefault();
+
+		let leftClick = (event.button != 2) ? true : false;
+		if (leftClick) {
+			leftHeld = true;
+		} else {
+			rightHeld = true;
+		};
 		let mousePos = getMousePos(canvas, event);
 
+		if (!leftClick) {
+			click(event, mousePos.x, mousePos.y);
+		};
+	});
+	canvas.addEventListener("mouseup", (event) => {
+		event.preventDefault();
+		let leftClick = (event.button != 2) ? true : false;
+		if (leftClick) {
+			leftHeld = false;
+		} else {
+			rightHeld = false;
+		};
+		let mousePos = getMousePos(canvas, event);
+
+		if (leftClick) {
+			click(event, mousePos.x, mousePos.y);
+		};
+	});
+
+	// Remove Right Click from opening context menu
+	window.addEventListener("contextmenu", (event) => {
+		event.preventDefault();
+	}, false);
+};
+
+const click = (event, x, y) => {
+	let leftClick = (event.button != 2) ? true : false;
+
+	let cellRow = parseInt((y  - heightForUI) / gameSettings.cellSize);
+	let cellCol = parseInt(x / gameSettings.cellSize);
+
+	// Left click handler
+	if (leftClick && !leftHeld) {
 		// UI Interaction
-		if (mousePos.x >= 30 && mousePos.x <= 80 && mousePos.y >= 30 && mousePos.y <= 80) {
+		if (x >= 30 && x <= 80 && y >= 30 && y <= 80) {
 			Game.start();
 			return;
 		};
-
-		// Board interaction
-		let cellRow = parseInt((mousePos.y  - heightForUI) / gameSettings.cellSize);
-		let cellCol = parseInt(mousePos.x / gameSettings.cellSize);
-		
-		// Disallow numbers outside game parameters
+		// Check if click is on board
 		if (1 / cellRow > 0 && 0 <= cellRow && cellRow < Board.rows && 0 <= cellCol && cellCol <= Board.cols) {
 			let cell = Board.getCell(cellRow, cellCol);
-			if (!cell.flagged && !Game.over) {
-				// If cell isn't revealed or game isn't over
-				cell.reveal();
+
+			// If right click is held
+			if (rightHeld) {
+				cell.chord();
+			} else {
+				// If game has not started, start game
+				if (!Game.started && !Game.over) {
+					checkToStartGame(cell);
+					// Get new board's cell in case the board was changed while starting game
+					Board.getCell(cellRow, cellCol).reveal();
+				} else {
+					if (!cell.flagged && !Game.over) {
+						// If cell isn't revealed or game isn't over
+						cell.reveal();
+					};
+				};
+				
 			};
 		};
-		
-	});
-
-	// Right Click Listener
-	canvas.addEventListener("contextmenu", (event) => {
-		event.preventDefault();
-		let mousePos = getMousePos(canvas, event);
-
-		// Board interaction
-		let cellRow = parseInt((mousePos.y  - heightForUI) / gameSettings.cellSize);
-		let cellCol = parseInt(mousePos.x / gameSettings.cellSize);
-
-		// Check if game isn't no flagged mode
-		if (!Game.noFlags) {
-			// Disallow numbers outside game parameters
-			if (1 / cellRow > 0 && 0 <= cellRow && cellRow < Board.rows && 0 <= cellCol && cellCol <= Board.cols) {
-				Board.getCell(cellRow, cellCol).flag();
+	}
+	// Right click handler
+	if (!leftClick && rightHeld && Game.started) {
+		if (1 / cellRow > 0 && 0 <= cellRow && cellRow < Board.rows && 0 <= cellCol && cellCol <= Board.cols) {
+			let cell = Board.getCell(cellRow, cellCol);
+			if (leftHeld) {
+				cell.chord();
+			} else if (!Game.noFlags) {
+				// Check if game isn't no flagged mode
+				cell.flag();
 			};
 		};
-		// return false;
-	}, false);
-};
+	};
+}
 
 // Update Canvas Size when size of the board changes
 const updateCanvasSize = (rows, cols) => {
 	canvas.height = rows * gameSettings.cellSize + heightForUI;
 	canvas.width = cols * gameSettings.cellSize;
-}
+};
 
 // Draw tray above board for UI
 const drawTray = () => {
 	ctx.drawImage(images[13], 0, 0, canvas.width, heightForUI);
-}
+};
 
 // Draw clock icon for amount of time taken to play
 const drawClock = () => {
@@ -526,7 +591,7 @@ const drawClock = () => {
 	ctx.textAlign = "center";
 	ctx.textBaseline = "top";
 	ctx.fillText(`${timeElapsed.toFixed(1)}` , canvas.width - 45, heightForUI - 84);
-}
+};
 
 // Draw mine icon for number of mines left
 const drawMinesLeft = () => {
@@ -538,13 +603,13 @@ const drawMinesLeft = () => {
 	ctx.textAlign = "center";
 	ctx.textBaseline = "top";
 	ctx.fillText(`${currentGameParameters.mines - Board.checkFlags()}` , canvas.width - 50, heightForUI - 45);
-}
+};
 
 // Draw Restart button on UI tray
 const drawRestartButton = () => {
 	ctx.fillStyle = 'red';
 	ctx.fillRect(30, 30, 50, 50);
-}
+};
 
 // Render function that draws on canvas
 const render = () => {
@@ -596,10 +661,10 @@ const update = (modifier) => {
 			timeElapsed = 999;
 		} else {
 			timeElapsed += modifier;
-		}
+		};
 		
-	}
-}
+	};
+};
 
 // Main game loop
 const main = () => {
@@ -615,8 +680,8 @@ const main = () => {
 	// If game has started, keep running game loop. Otherwise, don't keep running game loop for performance
 	if (Game.started) {
 		requestAnimationFrame(main);
-	}
-}
+	};
+};
 
 // Initialize game
 const initialize = () => {
@@ -628,7 +693,7 @@ const initialize = () => {
 
 	Game.start();
 	main();
-}
+};
 
 initialize();
 

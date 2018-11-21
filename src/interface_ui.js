@@ -1,5 +1,3 @@
-let gameUsername;
-
 // Turn overlay message on
 const overlayOn = () => {
 	document.getElementById("overlay").style.display = 'block';
@@ -23,38 +21,4 @@ const submitScore = () => {
 	overlayOff();
 
 	// submit score to database based on username, score, and difficulty
-};
-
-const goToStart = () => {
-	document.getElementById("userOptions").style.visibility = "visible";
-	document.getElementById("userLogin").style.visibility = "hidden";
-};
-
-const goToLogin = () => {
-	document.getElementById("userOptions").style.visibility = "hidden";
-	document.getElementById("userLogin").style.visibility = "visible";
-};
-
-const goToGame = () => {
-	document.getElementById("userOptions").style.visibility = "hidden";
-	overlayOff();
-};
-
-const login = () => {
-	document.getElementById("userLogin").style.visibility = "hidden";
-	let features = document.getElementsByClassName("userOnlyFeature");
-	for (let i = 0; i < features.length; i++) {
-		features[i].style.display = "block";
-	};
-	overlayOff();
-
-	// Set username on page
-	let username = document.getElementById("usernameInput").value;
-	gameUsername = username;
-	document.getElementById("username").innerHTML = username;
-
-	// database query with username
-
-	// if username exists and has saved game, make load button appear
-	// otherwise, do nothing
 };
