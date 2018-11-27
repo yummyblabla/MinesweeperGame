@@ -2,10 +2,6 @@ canvas {
 	background-color: gray;
     display: inline-block;
 }
-#title {
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
 
 #scores {
 	flex: 1 0 0;
@@ -20,7 +16,6 @@ canvas {
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 30px;
 }
 
 .selected {
@@ -57,14 +52,6 @@ canvas {
 }
 
 /* End Game Interface*/
-#closeButton {
-    width: 50%;
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 #endGame {
 }
 

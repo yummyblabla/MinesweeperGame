@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title></title>
+
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="./css/minesweeper.css">
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<h1>Minesweeper</h1>
+				</div>
+			</div>
+			<div class="row d-flex justify-content-between" id="body">
+
+				<div class="col-lg-2 text-center order-lg-1 order-2" id="scores">
+
+					<p class="font-weight-bold">Scores</p>
+					<br>
+					<p>Expert Mode</p>
+					<div id="expert"></div>
+					<br>
+					<p>Intermediate Mode</p>
+					<div id="intermediate"></div>
+					<br>
+					<p>Beginner Mode</p>
+					<div id="beginner"></div>
+
+				</div>
+
+				<div class="col-lg-8 order-lg-2 order-1 text-center" id="game">
+
+					<canvas id="canvas">Please update your browser.</canvas>
+
+				</div>
+				
+				<div class="col-lg-2 text-center order-lg-3 order-3" id="buttons">
+
+					<p>Custom Game</p>
+					<form>
+						<span>Width</span><input type="number" id="width">
+						<br>
+						<span>Height</span><input type="number" id="height">
+						<br>
+						<span>Mines</span><input type="number" id="mines">
+					</form>
+					<button id="Custom" onclick="changeGameParameters(this.id)">Change</button>
+
+					<br>
+					<br>
+					<p>Level</p>
+					<button id="Beginner" onclick="setLevel(8, 8, 10, this.id)">Beginner</button>
+					<br>
+					<button id="Intermediate" onclick="setLevel(16, 16, 40, this.id)">Intermediate</button>
+					<br>
+					<button id="Expert" onclick="setLevel(30, 16, 99, this.id)">Expert</button>
+
+					<br>
+					<button class="notSelected" id="noFlags" onclick="noFlagMode()">No Flag Mode</button>
+					<br>
+					<button class="notSelected" id="noMistakes" onclick="noMistakesMode()">No Mistakes Allowed</button>
+
+				</div>
+			</div>
+		</div>
+		
+		<!-- Overlay -->
+		<div id="overlay">
+
+			<div class="overlayInterface" id="endGame">
+
+				<button id="closeButton" onclick="overlayOff()">X</button>
+				<p>You won!</p>
+				<p id="difficulty"></p>
+				<p id="timeNeeded"></p>
+				<span>Enter a name to submit your score</span>
+				<br>
+				<input id="usernameSubmit" type="" name="">
+				<br>
+				<button id="submitScore" onclick="submitScore()">Submit Score</button>
+
+			</div>
+
+		</div>
+		
+	</body>
+	<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-database.js"></script>
+
+	<script src="src/firebase.js"></script>
+	<script src="src/interface_ui.js"></script>
+	<script src="src/app.js"></script>
+
+</html>

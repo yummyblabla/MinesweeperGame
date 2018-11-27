@@ -28,16 +28,10 @@ const minePath = "./assets/MINESWEEPER_M.png"; // 10
 const flagPath = "./assets/MINESWEEPER_F.png"; // 11
 const clockPath = "./assets/MINESWEEPER_C.png"; // 12
 const trayPath = "./assets/MINESWEEPER_tray.png"; // 13
-const resetPath = "./assets/reset.png"; // 14
-const imageURLs = [cell0Path, cell1Path, cell2Path, cell3Path, cell4Path, cell5Path, cell6Path, cell7Path, cell8Path, cellXPath, minePath, flagPath, clockPath, trayPath, resetPath];
+const imageURLs = [cell0Path, cell1Path, cell2Path, cell3Path, cell4Path, cell5Path, cell6Path, cell7Path, cell8Path, cellXPath, minePath, flagPath, clockPath, trayPath];
 const images = [];
 let imageCount = 0;
 let allLoaded = false;
-
-// Audio
-const sounds = [];
-const bombSound = "./assets/sounds/bomb.mp3";
-let soundToPlay = 0;
 
 // UI Controls
 const heightForUI = 100;
@@ -49,15 +43,6 @@ const uiSettings = {
 	fontStyle: "Comic Sans MS"
 };
 
-// Reset Button Parameters
-const resetObject = {
-	canvasX: 5,
-	canvasY: 35,
-	width: 71,
-	height: 21
-}
-
-// Booleans required for click listeners and chording
 let rightHeld = false;
 let leftHeld = false;
 
@@ -115,7 +100,6 @@ Cell.prototype.reveal = function() {
 		this.revealed = true;
 		Game.over = true;
 		Game.complete(false);
-		playBombSound();
 		return;
 	};
 
@@ -303,12 +287,10 @@ const Game = {
 	noFlags: false,
 	// Game Mode (No Mistakes when flagging)
 	noMistakes: false,
-	wonGame: false,
 	// Method when game is completed by winning or losing
 	complete: function(win) {
 		this.over = true;
 		this.started = false;
-		this.wonGame = win;
 		// If won, run code
 		if (win) {
 			updateOverlayMessage();
@@ -330,7 +312,6 @@ const Game = {
 		// Resets variables
 		this.over = false;
 		this.started = false;
-		this.wonGame = false;
 		timeElapsed = 0;
 		// Draw the board, but don't run main() for performance
 		render();
@@ -343,6 +324,37 @@ const Game = {
 /* --------------------Functions------------------------*/
 /* -----------------------------------------------------*/
 /* -----------------------------------------------------*/
+
+
+// No flagging mines allowed
+const noFlagMode = () => {
+	// Can only change mode if game hasn't started
+	if (!Game.started) {
+		Game.noFlags = !Game.noFlags;
+	};
+
+	// Change class of the button depending on truthiness of mode
+	if (Game.noFlags) {
+		document.getElementById("noFlags").className = "selected";
+	} else {
+		document.getElementById("noFlags").className = "notSelected";
+	};
+};
+
+// No mistakes with Flagging allowed
+const noMistakesMode = () => {
+	// Can only change mode if games hasn't started
+	if (!Game.started) {
+		Game.noMistakes = !Game.noMistakes;
+	};
+
+	// Change class of the button depending on truthiness of mode
+	if (Game.noMistakes) {
+		document.getElementById("noMistakes").className = "selected";
+	} else {
+		document.getElementById("noMistakes").className = "notSelected";
+	};
+};
 
 // Restricts width and height parameter to being between 8 and 40
 const minMaxParameter = (parameter) => {
@@ -410,7 +422,6 @@ const changeGameParameters = (difficulty) => {
 	} else {
 		currentGameParameters.difficulty = difficulty;
 	};
-	changeButtonColour(currentGameParameters.difficulty);
 
 	// Change game parameter properties
 	currentGameParameters.rows = height;
@@ -424,37 +435,6 @@ const changeGameParameters = (difficulty) => {
 
 	// Reset board and game properties
 	Game.start();
-};
-
-
-const changeButtonColour = (difficulty) => {
-	let beginner = document.getElementById("Beginner");
-	let intermediate = document.getElementById("Intermediate");
-	let expert = document.getElementById("Expert");
-	let buttonArray = [beginner, intermediate, expert];
-
-	for (let i = 0; i < buttonArray.length; i++) {
-		if (difficulty != buttonArray[i].id) {
-			buttonArray[i].className = "h4 notSelected";
-		} else {
-			buttonArray[i].className = "h4 selected";
-		};
-	};
-};
-
-const playBombSound = () => {
-	let sound = sounds[soundToPlay % sounds.length];
-	sound.play();
-	soundToPlay++;
-}
-
-// Load sounds to the page to play
-const soundInit = () => {
-	for (let i = 0; i < 2; i++) {
-		let sound = new Audio();
-		sound.src = bombSound;
-		sounds.push(sound);
-	};
 };
 
 // Load all images used to image array for drawing
@@ -551,8 +531,7 @@ const click = (event, x, y) => {
 	// Left click handler
 	if (leftClick && !leftHeld) {
 		// UI Interaction
-		if (x >= resetObject.canvasX && x <= resetObject.canvasX + resetObject.width && 
-			y >= resetObject.canvasY && y <= resetObject.canvasY + resetObject.height) {
+		if (x >= 30 && x <= 80 && y >= 30 && y <= 80) {
 			Game.start();
 			return;
 		};
@@ -630,7 +609,8 @@ const drawMinesLeft = () => {
 
 // Draw Restart button on UI tray
 const drawRestartButton = () => {
-	ctx.drawImage(images[14], resetObject.canvasX, resetObject.canvasY, resetObject.width, resetObject.height);
+	ctx.fillStyle = 'red';
+	ctx.fillRect(30, 30, 50, 50);
 };
 
 // Render function that draws on canvas
@@ -669,6 +649,7 @@ const render = () => {
 						};
 					};
 				};
+				
 			};
 		};
 	};
@@ -683,6 +664,7 @@ const update = (modifier) => {
 		} else {
 			timeElapsed += modifier;
 		};
+		
 	};
 };
 
@@ -707,8 +689,6 @@ const main = () => {
 const initialize = () => {
 	// Load Images
 	imageInit();
-	// Load Sounds
-	soundInit();
 
 	// Add Event Listeners (click)
 	addEventListeners();
