@@ -30,6 +30,6 @@ const readScores = (difficulty) => {
 	});
 };
 
-// readScores('expert');
-// readScores('intermediate');
-// readScores('beginner');
+readScores('expert');
+readScores('intermediate');
+readScores('beginner');

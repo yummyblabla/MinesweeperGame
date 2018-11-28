@@ -51,10 +51,10 @@ const uiSettings = {
 
 // Reset Button Parameters
 const resetObject = {
-	canvasX: 5,
-	canvasY: 35,
-	width: 71,
-	height: 21
+	canvasX: 50,
+	canvasY: 18,
+	width: 213, // 71
+	height: 63 // 21
 }
 
 // Booleans required for click listeners and chording
@@ -63,15 +63,16 @@ let leftHeld = false;
 
 // Game Settings (e.g. cellSize)
 const gameSettings = {
-	cellSize: 25
+	cellSize: 100,
+	iconSize: 40
 };
 
 // Current Game Parameters (rows, cols, mines)
 const currentGameParameters = {
-	rows: 16,
-	cols: 30,
+	rows: 8,
+	cols: 8,
 	mines: 10,
-	difficulty: 'Expert'
+	difficulty: 'Beginner'
 };
 
 // Time
@@ -410,6 +411,7 @@ const changeGameParameters = (difficulty) => {
 	} else {
 		currentGameParameters.difficulty = difficulty;
 	};
+	changeCellSize(currentGameParameters.difficulty);
 	changeButtonColour(currentGameParameters.difficulty);
 
 	// Change game parameter properties
@@ -425,6 +427,16 @@ const changeGameParameters = (difficulty) => {
 	// Reset board and game properties
 	Game.start();
 };
+
+const changeCellSize = (difficulty) => {
+	if (difficulty == "Expert") {
+		gameSettings.cellSize = 35;
+	} else if (difficulty == "Intermediate") {
+		gameSettings.cellSize = 50;
+	} else if (difficulty == "Beginner") {
+		gameSettings.cellSize = 100;
+	}
+}
 
 
 const changeButtonColour = (difficulty) => {
@@ -606,7 +618,7 @@ const drawTray = () => {
 
 // Draw clock icon for amount of time taken to play
 const drawClock = () => {
-	ctx.drawImage(images[12], canvas.width - 125, heightForUI - 87, gameSettings.cellSize, gameSettings.cellSize);
+	ctx.drawImage(images[12], canvas.width - 125, heightForUI - 87, gameSettings.iconSize, gameSettings.iconSize);
 
 	// Draw text of time elapsed
 	ctx.fillStyle = uiSettings.colour;
@@ -618,7 +630,7 @@ const drawClock = () => {
 
 // Draw mine icon for number of mines left
 const drawMinesLeft = () => {
-	ctx.drawImage(images[10], canvas.width - 125, heightForUI - 48, gameSettings.cellSize, gameSettings.cellSize);
+	ctx.drawImage(images[10], canvas.width - 125, heightForUI - 48, gameSettings.iconSize, gameSettings.iconSize);
 
 	// Draw text of number of mines left
 	ctx.fillStyle = uiSettings.colour;

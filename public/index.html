@@ -2,7 +2,7 @@
 <html>
 	<head>
 
-		<title></title>
+		<title>Minesweeper</title>
 
 		<meta charset="UTF-8">
 		<link rel="stylesheet" type="text/css" href="./css/minesweeper.css">
@@ -15,23 +15,23 @@
 	<body>
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-lg-12 text-center">
-					<h1>Minesweeper</h1>
+				<div class="col-lg-12 text-center ">
+					<h1 class="font-weight-bold" id="title">Minesweeper</h1>
 				</div>
 			</div>
 			<div class="row d-flex justify-content-between" id="body">
 
 				<div class="col-lg-2 text-center order-lg-1 order-2" id="scores">
 
-					<p class="font-weight-bold">Scores</p>
+					<p class="font-weight-bold h3">Scores</p>
 					<br>
-					<p>Expert Mode</p>
+					<p class="h4">Expert Mode</p>
 					<div id="expert"></div>
 					<br>
-					<p>Intermediate Mode</p>
+					<p class="h4">Intermediate Mode</p>
 					<div id="intermediate"></div>
 					<br>
-					<p>Beginner Mode</p>
+					<p class="h4">Beginner Mode</p>
 					<div id="beginner"></div>
 
 				</div>
@@ -44,29 +44,33 @@
 				
 				<div class="col-lg-2 text-center order-lg-3 order-3" id="buttons">
 
-					<p>Custom Game</p>
+					<p class="h3 font-weight-bold">Custom Game</p>
 					<form>
-						<span>Width</span><input type="number" id="width">
+						<p class="h5">Width</p><input type="number" id="width">
 						<br>
-						<span>Height</span><input type="number" id="height">
+						<p class="h5">Height</p><input type="number" id="height">
 						<br>
-						<span>Mines</span><input type="number" id="mines">
+						<p class="h5">Mines</p><input type="number" id="mines">
 					</form>
-					<button id="Custom" onclick="changeGameParameters(this.id)">Change</button>
+					<button class="h4" id="Custom" onclick="changeGameParameters(this.id)">Change</button>
 
 					<br>
 					<br>
-					<p>Level</p>
-					<button id="Beginner" onclick="setLevel(8, 8, 10, this.id)">Beginner</button>
+					<p class="h3 font-weight-bold">Level</p>
+					<button class="h4 notSelected" id="Beginner" onclick="setLevel(8, 8, 10, this.id)">Beginner</button>
 					<br>
-					<button id="Intermediate" onclick="setLevel(16, 16, 40, this.id)">Intermediate</button>
+					<button class="h4 notSelected" id="Intermediate" onclick="setLevel(16, 16, 40, this.id)">Intermediate</button>
 					<br>
-					<button id="Expert" onclick="setLevel(30, 16, 99, this.id)">Expert</button>
-
+					<button class="h4 selected" id="Expert" onclick="setLevel(30, 16, 99, this.id)">Expert</button>
+					<div>
+						
+					</div>
 					<br>
-					<button class="notSelected" id="noFlags" onclick="noFlagMode()">No Flag Mode</button>
+					<p class="h3 font-weight-bold">Modes</p>
+					
+					<button class="h4 notSelected" id="noFlags" onclick="noFlagMode()">No Flag Mode</button>
 					<br>
-					<button class="notSelected" id="noMistakes" onclick="noMistakesMode()">No Mistakes Allowed</button>
+					<button class="h4 notSelected" id="noMistakes" onclick="noMistakesMode()">No Mistakes Mode</button>
 
 				</div>
 			</div>
@@ -75,17 +79,20 @@
 		<!-- Overlay -->
 		<div id="overlay">
 
-			<div class="overlayInterface" id="endGame">
+			<div class="overlayInterface text-center d-flex justify-content-around" id="endGame">
 
-				<button id="closeButton" onclick="overlayOff()">X</button>
-				<p>You won!</p>
-				<p id="difficulty"></p>
-				<p id="timeNeeded"></p>
-				<span>Enter a name to submit your score</span>
-				<br>
-				<input id="usernameSubmit" type="" name="">
-				<br>
-				<button id="submitScore" onclick="submitScore()">Submit Score</button>
+				<button id="closeButton" onclick="overlayOff()">Close</button>
+				<p class="h1">You won!</p>
+				<p class="h3" id="difficulty"></p>
+				<p class="h3" id="timeNeeded"></p>
+				<div id="noCustom">
+					<div>
+						<span>Enter a name to submit your score</span>
+						<input class="text-center" id="usernameSubmit" type="" name="">
+					</div>
+					<button id="submitScore" onclick="submitScore()">Submit Score</button>
+				</div>
+				
 
 			</div>
 
