@@ -15,85 +15,92 @@
 	<body>
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-lg-12 text-center">
-					<h1 class="font-weight-bold" id="title">Minesweeper</h1>
+				<img src="./assets/menu.png" class="col-lg-4 col-sm-4" id="menu" onclick="activateOptions()">
+				<div class="col-lg-8 col-sm-8 text-center">
+					<p class="font-weight-bold" id="title">Minesweeper</p>
 				</div>
+				
 			</div>
 			<div class="row d-flex justify-content-between" id="body">
 
-				<div class="col-lg-2 text-center order-lg-1 order-2" id="scores">
+				<div class="col-lg-3 text-center order-lg-2 order-2" id="scores">
 
 					<p class="font-weight-bold h3">Scores</p>
 					<br>
-					<p class="h4">Expert Mode</p>
+					<p class="h4 font-weight-bold">Expert</p>
 					<div id="expert"></div>
 					<br>
-					<p class="h4">Intermediate Mode</p>
+					<p class="h4 font-weight-bold">Intermediate</p>
 					<div id="intermediate"></div>
 					<br>
-					<p class="h4">Beginner Mode</p>
+					<p class="h4 font-weight-bold">Beginner</p>
 					<div id="beginner"></div>
 
 				</div>
 
-				<div class="col-lg-8 order-lg-2 order-1 text-center" id="game">
+				<div class="col-lg-9 order-lg-1 order-1 text-center" id="game">
 
 					<canvas id="canvas">Please update your browser.</canvas>
 
 				</div>
 				
-				<div class="col-lg-2 text-center order-lg-3 order-3" id="buttons">
+			</div>
+		</div>
+		
+		
+		<div id="overlay">
+		<!-- Overlay -->
 
-					<p class="h3 font-weight-bold">Custom Game</p>
-					<form>
+			<div class="overlayInterface text-center d-flex justify-content-around" id="endGame">
+
+				<button class="h4" id="closeButton" onclick="overlayOff()">Close Window</button>
+				<p class="h3">You won!</p>
+				<p class="h5" id="difficulty"></p>
+				<p class="h5" id="timeNeeded"></p>
+				<div id="noCustom">
+					<div>
+						<p class="h6">Enter a name to submit your score</p>
+						<input class="text-center" id="usernameSubmit" type="" name="">
+					</div>
+					<br>
+					<button class="h3" id="submitScore" onclick="submitScore()">Submit Score</button>
+				</div>
+			</div>
+
+			<div class="overlayInterface" id="options">
+				<button class="h4" id="closeButton" onclick="overlayOff()">Close Window</button>
+				<div class="d-flex flex-row">
+					<div class="text-center flex-grow-1" id="buttons">
+						<p class="h4 font-weight-bold">Custom Game</p>
+
 						<p class="h5">Width</p><input type="number" id="width">
 						<br>
 						<p class="h5">Height</p><input type="number" id="height">
 						<br>
 						<p class="h5">Mines</p><input type="number" id="mines">
-					</form>
-					<button class="h4" id="Custom" onclick="changeGameParameters(this.id)">Change</button>
-
-					<br>
-					<br>
-					<p class="h3 font-weight-bold">Level</p>
-					<button class="h4 notSelected" id="Beginner" onclick="setLevel(8, 8, 10, this.id)">Beginner</button>
-					<br>
-					<button class="h4 notSelected" id="Intermediate" onclick="setLevel(16, 16, 40, this.id)">Intermediate</button>
-					<br>
-					<button class="h4 selected" id="Expert" onclick="setLevel(30, 16, 99, this.id)">Expert</button>
-					<div>
+						<br>
+						<button class="h2" id="Custom" onclick="changeGameParameters(this.id)">Change</button>
+					</div>
+					<div class="text-center flex-grow-1" id="modes">
+						<p class="h4 font-weight-bold">Level</p>
+						<button class="h3 selected" id="Beginner" onclick="setLevel(8, 8, 10, this.id)">Beginner</button>
+						<br>
+						<button class="h3 notSelected" id="Intermediate" onclick="setLevel(16, 16, 40, this.id)">Intermediate</button>
+						<br>
+						<button class="h3 notSelected" id="Expert" onclick="setLevel(30, 16, 99, this.id)">Expert</button>
+						<div>
+							
+						</div>
+						<br>
+						<p class="h3 font-weight-bold">Modes</p>
 						
+						<button class="h3 notSelected" id="noFlags" onclick="noFlagMode()">No Flag Mode</button>
+						<br>
+						<button class="h3 notSelected" id="noMistakes" onclick="noMistakesMode()">No Mistakes Mode</button>
+
 					</div>
-					<br>
-					<p class="h3 font-weight-bold">Modes</p>
-					
-					<button class="h4 notSelected" id="noFlags" onclick="noFlagMode()">No Flag Mode</button>
-					<br>
-					<button class="h4 notSelected" id="noMistakes" onclick="noMistakesMode()">No Mistakes Mode</button>
-
-				</div>
-			</div>
-		</div>
-		
-		<!-- Overlay -->
-		<div id="overlay">
-
-			<div class="overlayInterface text-center d-flex justify-content-around" id="endGame">
-
-				<button id="closeButton" onclick="overlayOff()">Close</button>
-				<p class="h1">You won!</p>
-				<p class="h3" id="difficulty"></p>
-				<p class="h3" id="timeNeeded"></p>
-				<div id="noCustom">
-					<div>
-						<span>Enter a name to submit your score</span>
-						<input class="text-center" id="usernameSubmit" type="" name="">
-					</div>
-					<button id="submitScore" onclick="submitScore()">Submit Score</button>
 				</div>
 				
-
 			</div>
 
 		</div>

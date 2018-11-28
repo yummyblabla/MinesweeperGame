@@ -12,6 +12,7 @@ let then = Date.now();
 
 canvas.width = 1000;
 canvas.height = 600;
+const ratio = window.innerHeight;
 
 // Image Paths and Image Loading Variables
 const cell0Path = "./assets/MINESWEEPER_0.png"; // 0
@@ -45,17 +46,9 @@ const heightForUI = 100;
 // UI Parameters
 const uiSettings = {
 	colour: 'black',
-	fontSize: 30,
-	fontStyle: "Comic Sans MS"
+	fontSize: 50,
+	fontStyle: "Sans Serif"
 };
-
-// Reset Button Parameters
-const resetObject = {
-	canvasX: 50,
-	canvasY: 18,
-	width: 213, // 71
-	height: 63 // 21
-}
 
 // Booleans required for click listeners and chording
 let rightHeld = false;
@@ -63,8 +56,8 @@ let leftHeld = false;
 
 // Game Settings (e.g. cellSize)
 const gameSettings = {
-	cellSize: 100,
-	iconSize: 40
+	cellSize: 120,
+	iconSize: 60
 };
 
 // Current Game Parameters (rows, cols, mines)
@@ -74,6 +67,32 @@ const currentGameParameters = {
 	mines: 10,
 	difficulty: 'Beginner'
 };
+
+// Reset Button Parameters
+const resetObject = {
+	canvasX: 20,
+	canvasY: 18,
+	width: 213, // 71
+	height: 63 // 21
+};
+
+// Clock Icon Parameters
+const clockIcon = {
+	canvasX: 400,
+	canvasY: 20,
+	length: gameSettings.iconSize,
+	textX: 460,
+	textY: 25
+};
+
+// Mine Icon Parameters
+const mineIcon = {
+	canvasX: 250,
+	canvasY: 20,
+	length: gameSettings.iconSize,
+	textX: 310,
+	textY: 25
+}
 
 // Time
 let timeElapsed = 0;
@@ -314,6 +333,7 @@ const Game = {
 		if (win) {
 			updateOverlayMessage();
 			overlayOn();
+			document.getElementById("options").style.visibility = "hidden";
 			document.getElementById("endGame").style.visibility = "visible";
 		};
 	},
@@ -411,7 +431,7 @@ const changeGameParameters = (difficulty) => {
 	} else {
 		currentGameParameters.difficulty = difficulty;
 	};
-	changeCellSize(currentGameParameters.difficulty);
+	
 	changeButtonColour(currentGameParameters.difficulty);
 
 	// Change game parameter properties
@@ -424,21 +444,13 @@ const changeGameParameters = (difficulty) => {
 	document.getElementById("height").value = height;
 	document.getElementById("mines").value = mines;
 
+	overlayOff();
 	// Reset board and game properties
 	Game.start();
+	resizeCanvas();
 };
 
-const changeCellSize = (difficulty) => {
-	if (difficulty == "Expert") {
-		gameSettings.cellSize = 35;
-	} else if (difficulty == "Intermediate") {
-		gameSettings.cellSize = 50;
-	} else if (difficulty == "Beginner") {
-		gameSettings.cellSize = 100;
-	}
-}
-
-
+// Changes the colour of the buttons whenever they are pressed
 const changeButtonColour = (difficulty) => {
 	let beginner = document.getElementById("Beginner");
 	let intermediate = document.getElementById("Intermediate");
@@ -447,13 +459,14 @@ const changeButtonColour = (difficulty) => {
 
 	for (let i = 0; i < buttonArray.length; i++) {
 		if (difficulty != buttonArray[i].id) {
-			buttonArray[i].className = "h4 notSelected";
+			buttonArray[i].className = "h3 notSelected";
 		} else {
-			buttonArray[i].className = "h4 selected";
+			buttonArray[i].className = "h3 selected";
 		};
 	};
 };
 
+// Plays the bomb sound
 const playBombSound = () => {
 	let sound = sounds[soundToPlay % sounds.length];
 	sound.play();
@@ -515,6 +528,59 @@ const checkToStartGame = (cell) => {
 	main();
 };
 
+// Resize Canvas
+const resizeCanvas = () => {
+	let rows = Board.rows;
+	let cols = Board.cols;
+	let widthSize = document.getElementById("game").offsetWidth / cols;
+	let heightSize = (window.innerHeight - 160 - heightForUI) / rows;
+	if (widthSize < heightSize) {
+		gameSettings.cellSize = widthSize;
+	} else {
+		gameSettings.cellSize = heightSize;
+	}
+	updateUI();
+	updateCanvasSize(rows, cols);
+
+	render();
+
+}
+
+// Readjust UI positions when the browser height is changed
+const updateUI = () => {
+	let currentHeight = window.innerHeight;
+	if (currentHeight < 575) {
+		resetObject.width = 71;
+		resetObject.height = 21;
+		clockIcon.canvasX = 100;
+		clockIcon.textX = 140;
+		mineIcon.canvasX = 100;
+		mineIcon.textX = 140;
+	} else if (currentHeight < 788) {
+		resetObject.width = 213;
+		resetObject.height = 63;
+		mineIcon.length = 30;
+		mineIcon.textX = 290;
+		mineIcon.canvasX = 250;
+		clockIcon.length = 30;
+		clockIcon.canvasX = 250;
+		clockIcon.canvasY = 60;
+		clockIcon.textX = 290;
+		clockIcon.textY = 65;
+		uiSettings.fontSize = 20;
+	} else {
+		mineIcon.length = 60;
+		clockIcon.length = 60;
+		mineIcon.textX = 310;
+		clockIcon.textX = 460;
+		clockIcon.textY = 25;
+		uiSettings.fontSize = 50;
+		clockIcon.canvasX = 400;
+		clockIcon.canvasY = 20;
+
+	}
+}
+
 // Add Event Listeners to the Page
 const addEventListeners = () => {
 	// Event Listeners
@@ -552,8 +618,12 @@ const addEventListeners = () => {
 	window.addEventListener("contextmenu", (event) => {
 		event.preventDefault();
 	}, false);
+
+	// Event listener for resizing window
+	window.addEventListener('resize', resizeCanvas, false);
 };
 
+// Click handler function
 const click = (event, x, y) => {
 	let leftClick = (event.button != 2) ? true : false;
 
@@ -611,6 +681,8 @@ const updateCanvasSize = (rows, cols) => {
 	canvas.width = cols * gameSettings.cellSize;
 };
 
+
+
 // Draw tray above board for UI
 const drawTray = () => {
 	ctx.drawImage(images[13], 0, 0, canvas.width, heightForUI);
@@ -618,26 +690,26 @@ const drawTray = () => {
 
 // Draw clock icon for amount of time taken to play
 const drawClock = () => {
-	ctx.drawImage(images[12], canvas.width - 125, heightForUI - 87, gameSettings.iconSize, gameSettings.iconSize);
+	ctx.drawImage(images[12], clockIcon.canvasX, clockIcon.canvasY, clockIcon.length, clockIcon.length);
 
 	// Draw text of time elapsed
 	ctx.fillStyle = uiSettings.colour;
 	ctx.font = `${uiSettings.fontSize}px ${uiSettings.fontStyle}`;
-	ctx.textAlign = "center";
+	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText(`${timeElapsed.toFixed(1)}` , canvas.width - 45, heightForUI - 84);
+	ctx.fillText(`${timeElapsed.toFixed(1)}`, clockIcon.textX, clockIcon.textY);
 };
 
 // Draw mine icon for number of mines left
 const drawMinesLeft = () => {
-	ctx.drawImage(images[10], canvas.width - 125, heightForUI - 48, gameSettings.iconSize, gameSettings.iconSize);
+	ctx.drawImage(images[10], mineIcon.canvasX, mineIcon.canvasY, mineIcon.length, mineIcon.length);
 
 	// Draw text of number of mines left
 	ctx.fillStyle = uiSettings.colour;
 	ctx.font = `${uiSettings.fontSize}px ${uiSettings.fontStyle}`;
-	ctx.textAlign = "center";
+	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText(`${currentGameParameters.mines - Board.checkFlags()}` , canvas.width - 50, heightForUI - 45);
+	ctx.fillText(`${currentGameParameters.mines - Board.checkFlags()}` , mineIcon.textX, mineIcon.textY);
 };
 
 // Draw Restart button on UI tray
@@ -726,6 +798,7 @@ const initialize = () => {
 	addEventListeners();
 
 	Game.start();
+	resizeCanvas();
 	main();
 };
 

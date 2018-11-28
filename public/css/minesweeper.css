@@ -1,17 +1,46 @@
 canvas {
-	background-color: gray;
+	background-color: white;
     display: inline-block;
 }
-#title {
-    margin-top: 30px;
-    margin-bottom: 30px;
+
+p.h3 {
+    font-size: 70px;
 }
 
-#scores {
-	flex: 1 0 0;
+p.h4 {
+    font-size: 50px;
+}
+p.h5 {
+    font-size: 40px;
+}
+p.h6 {
+    font-size: 30px;
+}
+
+#menu {
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    padding: 0;
+    margin: 0;
+}
+
+#menu:hover {
+    opacity: 0.5;
+}
+
+#title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 90px;
 }
 
 #buttons {
+    flex: 1 0 0;
+}
+
+#modes {
     flex: 1 0 0;
 }
 
@@ -44,8 +73,8 @@ canvas {
 }
 
 .overlayInterface {
-    height: 400px;
-    width: 400px;
+    height: 500px;
+    width: 100%;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -66,11 +95,9 @@ canvas {
 }
 
 #endGame {
+    visibility: hidden;
 }
 
-#difficulty {
-
-}
 #submitScore {
     height: 100px;
 }

@@ -7,9 +7,9 @@ const noFlagMode = () => {
 
 	// Change class of the button depending on truthiness of mode
 	if (Game.noFlags) {
-		document.getElementById("noFlags").className = "h4 selected";
+		document.getElementById("noFlags").className = "h3 selected";
 	} else {
-		document.getElementById("noFlags").className = "h4 notSelected";
+		document.getElementById("noFlags").className = "h3 notSelected";
 	};
 };
 
@@ -22,9 +22,9 @@ const noMistakesMode = () => {
 
 	// Change class of the button depending on truthiness of mode
 	if (Game.noMistakes) {
-		document.getElementById("noMistakes").className = "h4 selected";
+		document.getElementById("noMistakes").className = "h3 selected";
 	} else {
-		document.getElementById("noMistakes").className = "h4 notSelected";
+		document.getElementById("noMistakes").className = "h3 notSelected";
 	};
 };
 
@@ -43,6 +43,10 @@ const overlayOff = () => {
 	document.getElementById("overlay").style.display = 'none';
 };
 
+const activateOptions = () => {
+	overlayOn();
+	document.getElementById("options").style.visibility = "visible";
+}
 // When user wins, update the overlay message with time and difficulty played
 const updateOverlayMessage = () => {
 	document.getElementById("difficulty").innerHTML = `Difficulty: ${ currentGameParameters.difficulty }`;
@@ -70,6 +74,6 @@ const submitScore = () => {
 				}
 			});
 		};
+		document.getElementById("endGame").style.visibility = "hidden";
 	};
-	// submit score to database based on username, score, and difficulty
 };

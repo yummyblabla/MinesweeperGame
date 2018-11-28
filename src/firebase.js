@@ -20,6 +20,7 @@ const readScores = (difficulty) => {
 		snapshot.forEach((child) => {
 			let data = child.val();
 			let score = document.createElement("p");
+			score.className = "h6";
 			score.innerHTML = `${ data["user"] }: ${ data["score"] }`;
 			newDiv.appendChild(score);
 		});
@@ -30,6 +31,7 @@ const readScores = (difficulty) => {
 	});
 };
 
-// readScores('expert');
-// readScores('intermediate');
-// readScores('beginner');
+// Get database scores on the difficulty levels
+readScores('expert');
+readScores('intermediate');
+readScores('beginner');
