@@ -147,7 +147,6 @@ Cell.prototype.reveal = function() {
 			// if neighbour is not revealed and it isn't flagged, then reveal it
 			if (!neighbours[i].isRevealed() && !neighbours[i].flagged) {
 				neighbours[i].reveal();
-				
 			};
 		};
 	};
@@ -552,32 +551,48 @@ const updateUI = () => {
 	if (currentHeight < 575) {
 		resetObject.width = 71;
 		resetObject.height = 21;
-		clockIcon.canvasX = 100;
-		clockIcon.textX = 140;
+
+		mineIcon.length = 30;
 		mineIcon.canvasX = 100;
 		mineIcon.textX = 140;
+
+		clockIcon.length = 30;
+		clockIcon.canvasX = 100;
+		clockIcon.canvasY = 60;
+		clockIcon.textX = 140;
+		clockIcon.textY = 65;
+
+		uiSettings.fontSize = 20;
 	} else if (currentHeight < 788) {
 		resetObject.width = 213;
 		resetObject.height = 63;
+
 		mineIcon.length = 30;
 		mineIcon.textX = 290;
 		mineIcon.canvasX = 250;
+
 		clockIcon.length = 30;
 		clockIcon.canvasX = 250;
 		clockIcon.canvasY = 60;
 		clockIcon.textX = 290;
 		clockIcon.textY = 65;
+
 		uiSettings.fontSize = 20;
 	} else {
+		resetObject.width = 213;
+		resetObject.height = 63;
+
 		mineIcon.length = 60;
-		clockIcon.length = 60;
 		mineIcon.textX = 310;
+		mineIcon.canvasX = 250;
+
+		clockIcon.length = 60;
 		clockIcon.textX = 460;
 		clockIcon.textY = 25;
-		uiSettings.fontSize = 50;
 		clockIcon.canvasX = 400;
 		clockIcon.canvasY = 20;
 
+		uiSettings.fontSize = 50;
 	}
 }
 
