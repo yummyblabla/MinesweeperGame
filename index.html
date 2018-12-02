@@ -21,9 +21,15 @@
 				</div>
 				
 			</div>
-			<div class="row d-flex justify-content-between" id="body">
+			<div class="row" id="body">
 
-				<div class="col-lg-3 text-center order-lg-2 order-2" id="scores">
+				<div class="col-lg-9 text-center" id="game">
+
+					<canvas id="canvas">Please update your browser.</canvas>
+
+				</div>
+
+				<div class="col-lg-3 text-center" id="scores">
 
 					<p class="font-weight-bold h3">Scores</p>
 					<br>
@@ -38,11 +44,7 @@
 
 				</div>
 
-				<div class="col-lg-9 order-lg-1 order-1 text-center" id="game">
-
-					<canvas id="canvas">Please update your browser.</canvas>
-
-				</div>
+				
 				
 			</div>
 		</div>
@@ -51,7 +53,7 @@
 		<div id="overlay">
 		<!-- Overlay -->
 
-			<div class="overlayInterface text-center d-flex justify-content-around" id="endGame">
+			<div class="overlayInterface text-center justify-content-around" id="endGame">
 
 				<button class="h4" id="closeButton" onclick="overlayOff()">Close Window</button>
 				<p class="h3">You won!</p>
@@ -68,8 +70,11 @@
 			</div>
 
 			<div class="overlayInterface" id="options">
+
 				<button class="h4" id="closeButton" onclick="overlayOff()">Close Window</button>
+
 				<div class="d-flex flex-row">
+
 					<div class="text-center flex-grow-1" id="buttons">
 						<p class="h4 font-weight-bold">Custom Game</p>
 
@@ -81,6 +86,7 @@
 						<br>
 						<button class="h2" id="Custom" onclick="changeGameParameters(this.id)">Change</button>
 					</div>
+
 					<div class="text-center flex-grow-1" id="modes">
 						<p class="h4 font-weight-bold">Level</p>
 						<button class="h3 selected" id="Beginner" onclick="setLevel(8, 8, 10, this.id)">Beginner</button>
@@ -92,17 +98,16 @@
 							
 						</div>
 						<br>
+
 						<p class="h3 font-weight-bold">Modes</p>
-						
 						<button class="h3 notSelected" id="noFlags" onclick="noFlagMode()">No Flag Mode</button>
 						<br>
 						<button class="h3 notSelected" id="noMistakes" onclick="noMistakesMode()">No Mistakes Mode</button>
 
 					</div>
-				</div>
-				
-			</div>
 
+				</div>
+			</div>
 		</div>
 		
 	</body>
