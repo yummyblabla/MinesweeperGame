@@ -14,7 +14,11 @@ As for functionality, changing dimensions and parameters of the game board,flagg
 <b>Tech Stack:</b>
 
 Javascript
+
 CSS (Bootstrap)
+
 HTML
+
 HTML5 Canvas
+
 Firebase
