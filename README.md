@@ -1,6 +1,8 @@
 # MinesweeperGame
 COMP 1536 - Web Development Project
 
+Try it out here: https://minesweeper-50f64.firebaseapp.com/
+
 Minesweeper game developed for BCIT-COMP1536's Project Requirement
 
 For this project, the class was given a task of recreating Minesweeper using only Javascript, HTML, and CSS with no libraries allowed. The game will work similar to the original Minesweeper game. Additional requirements included having a database to store the high scores, and the functionality of retrieving and writing scores to the database. Mobile responsiveness was a must.
